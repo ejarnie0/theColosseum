@@ -12,7 +12,6 @@ import cryingHands from './assets/crying-hands.png';
 import angryFist from './assets/angry_fist.png';
 import mouthOpen from './assets/mouth_open.png';
 import statues from './assets/statues.png';
-import begging from './assets/begging.png';
 import creepyWind from './assets/Creepy_Wind.mp3';
 
 export default function App() {
@@ -101,7 +100,7 @@ export default function App() {
       setFinalPhaseIndex(null);
       setMouthSequenceIndex(null);
       setPostStatuesIndex(null);
-      figTimer = window.setTimeout(() => setShowFigures(true), 2000);
+      figTimer = window.setTimeout(() => setShowFigures(true), 3000);
       btnTimer = window.setTimeout(() => setShowButtons(true), 5000);
     } else {
       setDisplayImage(titleScreen);
@@ -128,13 +127,19 @@ export default function App() {
     setShowFigures(false);
     setShowButtons(false);
     setShowFinalButtons(false);
-    setWhiteout(false);
+    setWhiteout(true);
     setSequenceIndex(null);
     setHeadingOverride(null);
 
-    // Immediately transition to faces and start the sequence timing.
-    setDisplayImage(faces);
-    setSequenceIndex(-1); // start sequence after delay in sequence effect
+    const toFaces = window.setTimeout(() => {
+      setDisplayImage(faces);
+      setWhiteout(false);
+      setSequenceIndex(-1); // start sequence after delay effect below
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(toFaces);
+    };
   }, [initialChoice]);
 
   // Faces sequence advancing every 2s, switching to hands_reaching on the "cry" line
@@ -185,13 +190,6 @@ export default function App() {
     setFinalPhaseIndex(null);
     setMouthSequenceIndex(null);
     setPostStatuesIndex(null);
-
-    // Beg/Plead terminal branch: show begging image and line, stop other sequences.
-    if (pathChoice === 'beg' || pathChoice === 'plead') {
-      setDisplayImage(begging);
-      setHeadingOverride('Juxtaposed by the calamity, we are both the watcher and the watched.');
-      return;
-    }
 
     const targetImage = pathChoice === 'cry' ? cryingHands : angryFist;
     setDisplayImage(targetImage);
@@ -270,7 +268,6 @@ export default function App() {
         setDisplayImage(statues);
         setHeadingOverride('And we shout, and we scream.');
         setPostStatuesIndex(0);
-        setMouthSequenceIndex(null);
       }, 1500);
     }
 
@@ -297,12 +294,8 @@ export default function App() {
     if (postStatuesIndex < lines.length - 1) {
       timer = window.setTimeout(
         () => setPostStatuesIndex((idx) => (idx === null ? null : idx + 1)),
-        1500
+        1000
       );
-    } else {
-      // finished post-statues lines; reveal final buttons
-      setShowButtons(true);
-      setShowFinalButtons(true);
     }
 
     return () => {
@@ -400,29 +393,29 @@ export default function App() {
                   type="button"
                   onClick={() => {
                     if (showFinalButtons) {
-                      setPathChoice('beg');
+                      setPathChoice('cry');
                     } else {
                       setInitialChoice('advance-left');
                     }
                   }}
-                  aria-label={showFinalButtons ? 'Beg' : 'Run'}
+                  aria-label={showFinalButtons ? 'Cry' : 'Run'}
                 >
                   <img src={buttons} alt="Left choice" />
-                  <span className="button-label">{showFinalButtons ? 'Beg' : 'Run'}</span>
+                  <span className="button-label">{showFinalButtons ? 'Cry' : 'Run'}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => {
                     if (showFinalButtons) {
-                      setPathChoice('plead');
+                      setPathChoice('shout');
                     } else {
                       setInitialChoice('advance-right');
                     }
                   }}
-                  aria-label={showFinalButtons ? 'Plead' : 'Slow down'}
+                  aria-label={showFinalButtons ? 'Shout' : 'Slow down'}
                 >
                   <img src={buttons2} alt="Right choice" />
-                  <span className="button-label">{showFinalButtons ? 'Plead' : 'Slow down'}</span>
+                  <span className="button-label">{showFinalButtons ? 'Shout' : 'Slow down'}</span>
                 </button>
               </div>
             </div>

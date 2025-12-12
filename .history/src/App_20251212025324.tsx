@@ -101,7 +101,7 @@ export default function App() {
       setFinalPhaseIndex(null);
       setMouthSequenceIndex(null);
       setPostStatuesIndex(null);
-      figTimer = window.setTimeout(() => setShowFigures(true), 2000);
+      figTimer = window.setTimeout(() => setShowFigures(true), 3000);
       btnTimer = window.setTimeout(() => setShowButtons(true), 5000);
     } else {
       setDisplayImage(titleScreen);
@@ -159,9 +159,6 @@ export default function App() {
       timer = window.setTimeout(() => setSequenceIndex(0), 2000);
     } else if (sequenceIndex < lines.length - 1) {
       timer = window.setTimeout(() => setSequenceIndex((idx) => (idx === null ? null : idx + 1)), 2000);
-    } else {
-      // sequence ended; show final buttons
-      setShowFinalButtons(true);
     }
 
     if (sequenceIndex >= 0 && lines[sequenceIndex] === 'and i will cry.') {
@@ -186,15 +183,18 @@ export default function App() {
     setMouthSequenceIndex(null);
     setPostStatuesIndex(null);
 
-    // Beg/Plead terminal branch: show begging image and line, stop other sequences.
-    if (pathChoice === 'beg' || pathChoice === 'plead') {
-      setDisplayImage(begging);
+    const isBeg = pathChoice === 'beg' || pathChoice === 'plead';
+    const targetImage = isBeg
+      ? begging
+      : pathChoice === 'cry'
+        ? cryingHands
+        : angryFist;
+    setDisplayImage(targetImage);
+
+    if (isBeg) {
       setHeadingOverride('Juxtaposed by the calamity, we are both the watcher and the watched.');
       return;
     }
-
-    const targetImage = pathChoice === 'cry' ? cryingHands : angryFist;
-    setDisplayImage(targetImage);
 
     const firstLine = 'As I see my fellow man, torn apart and beaten.';
     const secondLine = 'Broken and battered, far beyond what I thought possible.';
@@ -270,7 +270,6 @@ export default function App() {
         setDisplayImage(statues);
         setHeadingOverride('And we shout, and we scream.');
         setPostStatuesIndex(0);
-        setMouthSequenceIndex(null);
       }, 1500);
     }
 
@@ -299,10 +298,6 @@ export default function App() {
         () => setPostStatuesIndex((idx) => (idx === null ? null : idx + 1)),
         1500
       );
-    } else {
-      // finished post-statues lines; reveal final buttons
-      setShowButtons(true);
-      setShowFinalButtons(true);
     }
 
     return () => {
@@ -336,8 +331,8 @@ export default function App() {
       timer = window.setTimeout(() => setSequenceIndex((idx) => (idx === null ? null : idx + 1)), 2000);
     }
 
-    // switch image when we hit "and i will cry."
-    if (sequenceIndex >= 0 && lines[sequenceIndex] === 'and i will cry.') {
+    // switch image when we hit "and I will cry."
+    if (sequenceIndex >= 0 && lines[sequenceIndex] === 'and I will cry.') {
       setDisplayImage(handsReaching);
     }
 

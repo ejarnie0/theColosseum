@@ -400,29 +400,29 @@ export default function App() {
                   type="button"
                   onClick={() => {
                     if (showFinalButtons) {
-                      setPathChoice('beg');
+                      setPathChoice('cry');
                     } else {
                       setInitialChoice('advance-left');
                     }
                   }}
-                  aria-label={showFinalButtons ? 'Beg' : 'Run'}
+                  aria-label={showFinalButtons ? 'Cry' : 'Run'}
                 >
                   <img src={buttons} alt="Left choice" />
-                  <span className="button-label">{showFinalButtons ? 'Beg' : 'Run'}</span>
+                  <span className="button-label">{showFinalButtons ? 'Cry' : 'Run'}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => {
                     if (showFinalButtons) {
-                      setPathChoice('plead');
+                      setPathChoice('shout');
                     } else {
                       setInitialChoice('advance-right');
                     }
                   }}
-                  aria-label={showFinalButtons ? 'Plead' : 'Slow down'}
+                  aria-label={showFinalButtons ? 'Shout' : 'Slow down'}
                 >
                   <img src={buttons2} alt="Right choice" />
-                  <span className="button-label">{showFinalButtons ? 'Plead' : 'Slow down'}</span>
+                  <span className="button-label">{showFinalButtons ? 'Shout' : 'Slow down'}</span>
                 </button>
               </div>
             </div>
