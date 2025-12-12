@@ -86,10 +86,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.heading-line {
-  animation: heading-fade 400ms ease;
-}
-
 .story-card .story-copy {
   margin: 0 0 16px;
   color: #111;
@@ -139,26 +135,24 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0;
+  gap: 10vw;
   padding: 0;
   pointer-events: none;
 }
 
 .figure-img {
-  max-width: min(800px, 50vw);
+  max-width: min(360px, 32vw);
   height: auto;
   opacity: 0;
   animation: figure-appear 2s ease forwards;
 }
 
 .figure-img.left {
-  position: absolute;
-  left: 25vw;
+  transform-origin: center;
 }
 
 .figure-img.right {
-  position: absolute;
-  right: 25vw;
+  transform-origin: center;
 }
 
 .button-label {
@@ -274,19 +268,10 @@ body {
 @keyframes figure-appear {
   0% {
     opacity: 0;
-    transform: scale(1.08);
+    transform: scale(1.05);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes heading-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+    transform: scale(0.95);
   }
 }

@@ -86,10 +86,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.heading-line {
-  animation: heading-fade 400ms ease;
-}
-
 .story-card .story-copy {
   margin: 0 0 16px;
   color: #111;
@@ -135,7 +131,9 @@ body {
 
 .figure-layer {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -145,20 +143,18 @@ body {
 }
 
 .figure-img {
-  max-width: min(800px, 50vw);
+  max-width: min(700px, 70vw);
   height: auto;
   opacity: 0;
   animation: figure-appear 2s ease forwards;
 }
 
 .figure-img.left {
-  position: absolute;
-  left: 25vw;
+  transform-origin: center;
 }
 
 .figure-img.right {
-  position: absolute;
-  right: 25vw;
+  transform-origin: center;
 }
 
 .button-label {
@@ -279,14 +275,5 @@ body {
   100% {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes heading-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

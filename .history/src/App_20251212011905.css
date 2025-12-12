@@ -86,10 +86,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.heading-line {
-  animation: heading-fade 400ms ease;
-}
-
 .story-card .story-copy {
   margin: 0 0 16px;
   color: #111;
@@ -137,28 +133,17 @@ body {
   position: absolute;
   inset: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
-  padding: 0;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 10vw 12vh;
   pointer-events: none;
 }
 
 .figure-img {
-  max-width: min(800px, 50vw);
+  max-width: min(420px, 36vw);
   height: auto;
   opacity: 0;
   animation: figure-appear 2s ease forwards;
-}
-
-.figure-img.left {
-  position: absolute;
-  left: 25vw;
-}
-
-.figure-img.right {
-  position: absolute;
-  right: 25vw;
 }
 
 .button-label {
@@ -268,25 +253,5 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes figure-appear {
-  0% {
-    opacity: 0;
-    transform: scale(1.08);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes heading-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

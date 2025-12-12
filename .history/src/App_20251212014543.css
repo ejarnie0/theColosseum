@@ -86,10 +86,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.heading-line {
-  animation: heading-fade 400ms ease;
-}
-
 .story-card .story-copy {
   margin: 0 0 16px;
   color: #111;
@@ -158,7 +154,15 @@ body {
 
 .figure-img.right {
   position: absolute;
-  right: 25vw;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+
+.whiteout.active {
+  opacity: 1;
 }
 
 .button-label {
@@ -279,14 +283,5 @@ body {
   100% {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes heading-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

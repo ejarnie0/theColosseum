@@ -86,10 +86,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.heading-line {
-  animation: heading-fade 400ms ease;
-}
-
 .story-card .story-copy {
   margin: 0 0 16px;
   color: #111;
@@ -151,15 +147,13 @@ body {
   animation: figure-appear 2s ease forwards;
 }
 
-.figure-img.left {
-  position: absolute;
-  left: 25vw;
+/* .figure-img.left {
+  transform-origin: center;
 }
 
 .figure-img.right {
-  position: absolute;
-  right: 25vw;
-}
+  transform-origin: center;
+} */
 
 .button-label {
   position: absolute;
@@ -279,14 +273,5 @@ body {
   100% {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes heading-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

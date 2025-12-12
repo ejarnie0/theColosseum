@@ -1,0 +1,172 @@
+import { useEffect, useRef, useCallback, useState } from 'react';
+import './App.css';
+import titleScreen from './assets/title_screen_1.png';
+import hallway from './assets/hallway_.png';
+import buttons from './assets/buttons.png';
+import buttons2 from './assets/buttons2.png';
+import hallwayPpl from './assets/Hallway_Ppl.png';
+import hallwayPpl2 from './assets/Hallway_Ppl 2.png';
+import handsReaching from './assets/hands_reaching.png';
+import statues from './assets/statues.png';
+import creepyWind from './assets/Creepy_Wind.mp3';
+
+export default function App() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [scene, setScene] = useState<'title' | 'hallway'>('title');
+  const [isFading, setIsFading] = useState(false);
+  const [pathChoice, setPathChoice] = useState<string | null>(null);
+   const [showFigures, setShowFigures] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
+
+  useEffect(() => {
+    const audio = new Audio(creepyWind);
+    audio.loop = true;
+    audio.volume = 0.55;
+    audioRef.current = audio;
+
+    audio.play()
+      .then(() => setIsPlaying(true))
+      .catch(() => {
+        // Browsers may block autoplay; user click fallback is provided.
+        setIsPlaying(false);
+      });
+
+    return () => {
+      audio.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const handleAudioStart = useCallback(() => {
+    if (!audioRef.current) return;
+    audioRef.current.muted = false;
+    audioRef.current.play()
+      .then(() => setIsPlaying(true))
+      .catch(() => {});
+  }, []);
+
+  const advanceScene = useCallback(() => {
+    // kick off audio if blocked before
+    handleAudioStart();
+    if (scene === 'hallway') return;
+    setShowFigures(false);
+    setShowButtons(false);
+    setIsFading(true);
+    setTimeout(() => {
+      setScene('hallway');
+      setTimeout(() => setIsFading(false), 120);
+    }, 450);
+  }, [handleAudioStart, scene]);
+
+  const togglePlayPause = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {});
+    } else {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    let figTimer: number | null = null;
+    let btnTimer: number | null = null;
+
+    if (scene === 'hallway') {
+      figTimer = window.setTimeout(() => setShowFigures(true), 3000);
+      btnTimer = window.setTimeout(() => setShowButtons(true), 5000);
+    } else {
+      setShowFigures(false);
+      setShowButtons(false);
+    }
+
+    return () => {
+      if (figTimer) window.clearTimeout(figTimer);
+      if (btnTimer) window.clearTimeout(btnTimer);
+    };
+  }, [scene]);
+
+  const hallwayBranch =
+    pathChoice === 'faster'
+      ? handsReaching
+      : pathChoice === 'slower'
+        ? statues
+        : hallway;
+
+  const currentImage = scene === 'title' ? titleScreen : hallwayBranch;
+  const currentAlt = scene === 'title' ? 'Title screen' : 'Hallway';
+
+  return (
+    <main className="app">
+      <div className="hero-wrapper">
+        <img
+          src={currentImage}
+          alt={currentAlt}
+          className="title-image"
+        />
+        <button
+          className="hero-action"
+          aria-label="Right side action"
+          type="button"
+          onClick={advanceScene}
+        />
+        {scene === 'hallway' && (
+          <div className={`story-layer ${isFading ? 'hidden' : 'visible'}`}>
+            <div className="story-card">
+              <h2>I can't do much from the stands of the coliseum.</h2>
+              {showFigures && (
+                <div className="figure-layer">
+                  <img src={hallwayPpl} alt="Hallway figures left" className="figure-img left" />
+                  <img src={hallwayPpl2} alt="Hallway figures right" className="figure-img right" />
+                </div>
+              )}
+              <div className={`story-buttons ${showButtons ? 'visible' : ''}`}>
+                <button
+                  type="button"
+                  onClick={() => setPathChoice('faster')}
+                  aria-label="Choose to speed up"
+                >
+                  <img src={buttons} alt="Left choice" />
+                  <span className="button-label">Speed up</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPathChoice('slower')}
+                  aria-label="Choose to slow down"
+                >
+                  <img src={buttons2} alt="Right choice" />
+                  <span className="button-label">Slow down</span>
+                </button>
+              </div>
+              {pathChoice && (
+                <div className="story-note">
+                  {pathChoice === 'faster' && 'They cannot hear me from within the coliseum.'}
+                  {pathChoice === 'slower' && 'They cannot hear me from within the coliseum.'}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+      <button
+        type="button"
+        className="volume-trigger"
+        onClick={togglePlayPause}
+        aria-label={isPlaying ? 'Pause wind sound' : 'Play wind sound'}
+      >
+        {isPlaying ? (
+          <span className="icon-pause" aria-hidden="true">
+            <span />
+            <span />
+          </span>
+        ) : (
+          <span className="icon-play" aria-hidden="true" />
+        )}
+      </button>
+    </main>
+  );
+}

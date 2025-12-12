@@ -11,7 +11,6 @@ import handsReaching from './assets/hands_reaching.png';
 import cryingHands from './assets/crying-hands.png';
 import angryFist from './assets/angry_fist.png';
 import mouthOpen from './assets/mouth_open.png';
-import statues from './assets/statues.png';
 import creepyWind from './assets/Creepy_Wind.mp3';
 
 export default function App() {
@@ -97,7 +96,6 @@ export default function App() {
       setPathChoice(null);
       setShowFinalButtons(false);
       setFinalPhaseIndex(null);
-      setMouthSequenceIndex(null);
       figTimer = window.setTimeout(() => setShowFigures(true), 3000);
       btnTimer = window.setTimeout(() => setShowButtons(true), 5000);
     } else {
@@ -108,7 +106,6 @@ export default function App() {
       setSequenceIndex(null);
       setHeadingOverride(null);
       setFinalPhaseIndex(null);
-      setMouthSequenceIndex(null);
     }
 
     return () => {
@@ -185,7 +182,6 @@ export default function App() {
     setWhiteout(false);
     setSequenceIndex(null);
     setFinalPhaseIndex(null);
-    setMouthSequenceIndex(null);
 
     const targetImage = pathChoice === 'cry' ? cryingHands : angryFist;
     setDisplayImage(targetImage);
@@ -218,6 +214,11 @@ export default function App() {
 
     if (finalPhaseIndex === null) return;
 
+    // On first final line, swap to mouth_open
+    if (finalPhaseIndex === 0) {
+      setDisplayImage(mouthOpen);
+    }
+
     setHeadingOverride(lines[finalPhaseIndex] ?? lines[lines.length - 1]);
 
     let timer: number | null = null;
@@ -226,50 +227,12 @@ export default function App() {
         () => setFinalPhaseIndex((idx) => (idx === null ? null : idx + 1)),
         1500
       );
-    } else {
-      // when final line ("More.") finishes, switch to mouth_open and start mouth sequence
-      timer = window.setTimeout(() => {
-        setDisplayImage(mouthOpen);
-        setMouthSequenceIndex(0);
-      }, 1500);
     }
 
     return () => {
       if (timer) window.clearTimeout(timer);
     };
   }, [finalPhaseIndex]);
-
-  // Mouth open line sequence
-  useEffect(() => {
-    const lines = [
-      'And our eyes are sunken, and milky.',
-      'And we are blind but we keep looking.',
-      'Eyes glued to the pit.',
-      'Our money ready to be sown.'
-    ];
-
-    if (mouthSequenceIndex === null) return;
-
-    setHeadingOverride(lines[mouthSequenceIndex] ?? lines[lines.length - 1]);
-
-    let timer: number | null = null;
-    if (mouthSequenceIndex < lines.length - 1) {
-      timer = window.setTimeout(
-        () => setMouthSequenceIndex((idx) => (idx === null ? null : idx + 1)),
-        1500
-      );
-    } else {
-      // after final mouth line, swap to statues and final line
-      timer = window.setTimeout(() => {
-        setDisplayImage(statues);
-        setHeadingOverride('And we shout, and we scream');
-      }, 1500);
-    }
-
-    return () => {
-      if (timer) window.clearTimeout(timer);
-    };
-  }, [mouthSequenceIndex]);
 
   // Sequence for faces -> hands_reaching
   useEffect(() => {
@@ -313,8 +276,8 @@ export default function App() {
     headingOverride ??
     ((displayImage === faces || displayImage === handsReaching) && sequenceIndex !== null && sequenceIndex >= 0
       ? [
-          'I am seated.',
-          'and I will squirm.',
+          'i am seated.',
+          'and i will squirm.',
           'and I will turn away.',
           'and I will turn back.',
           'and I will watch.',

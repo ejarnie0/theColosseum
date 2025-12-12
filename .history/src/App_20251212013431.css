@@ -86,10 +86,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.heading-line {
-  animation: heading-fade 400ms ease;
-}
-
 .story-card .story-copy {
   margin: 0 0 16px;
   color: #111;
@@ -148,7 +144,7 @@ body {
   max-width: min(800px, 50vw);
   height: auto;
   opacity: 0;
-  animation: figure-appear 2s ease forwards;
+  animation: figure-appear 2s ease forwards 1s;
 }
 
 .figure-img.left {
@@ -279,14 +275,5 @@ body {
   100% {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes heading-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

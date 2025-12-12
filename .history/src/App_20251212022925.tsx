@@ -11,7 +11,6 @@ import handsReaching from './assets/hands_reaching.png';
 import cryingHands from './assets/crying-hands.png';
 import angryFist from './assets/angry_fist.png';
 import mouthOpen from './assets/mouth_open.png';
-import statues from './assets/statues.png';
 import creepyWind from './assets/Creepy_Wind.mp3';
 
 export default function App() {
@@ -258,12 +257,6 @@ export default function App() {
         () => setMouthSequenceIndex((idx) => (idx === null ? null : idx + 1)),
         1500
       );
-    } else {
-      // after final mouth line, swap to statues and final line
-      timer = window.setTimeout(() => {
-        setDisplayImage(statues);
-        setHeadingOverride('And we shout, and we scream');
-      }, 1500);
     }
 
     return () => {
@@ -314,7 +307,7 @@ export default function App() {
     ((displayImage === faces || displayImage === handsReaching) && sequenceIndex !== null && sequenceIndex >= 0
       ? [
           'I am seated.',
-          'and I will squirm.',
+          'and i will squirm.',
           'and I will turn away.',
           'and I will turn back.',
           'and I will watch.',

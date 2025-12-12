@@ -258,12 +258,6 @@ export default function App() {
         () => setMouthSequenceIndex((idx) => (idx === null ? null : idx + 1)),
         1500
       );
-    } else {
-      // after final mouth line, swap to statues and final line
-      timer = window.setTimeout(() => {
-        setDisplayImage(statues);
-        setHeadingOverride('And we shout, and we scream');
-      }, 1500);
     }
 
     return () => {
