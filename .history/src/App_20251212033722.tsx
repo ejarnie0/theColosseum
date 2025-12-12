@@ -26,7 +26,7 @@ export default function App() {
   const [isFading, setIsFading] = useState(false);
   const [initialChoice, setInitialChoice] = useState<string | null>(null);
   const [pathChoice, setPathChoice] = useState<string | null>(null);
-  const [showFigures, setShowFigures] = useState(false);
+   const [showFigures, setShowFigures] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [displayImage, setDisplayImage] = useState(titleScreen);
   const [whiteout, setWhiteout] = useState(false);
@@ -108,7 +108,6 @@ export default function App() {
       setInitialChoice(null);
       setPathChoice(null);
       setShowFinalButtons(false);
-      setShowCryShoutButtons(false);
       setFinalPhaseIndex(null);
       setMouthSequenceIndex(null);
       setPostStatuesIndex(null);
@@ -143,7 +142,6 @@ export default function App() {
     setShowFigures(false);
     setShowButtons(false);
     setShowFinalButtons(false);
-    setShowCryShoutButtons(false);
     setWhiteout(false);
     setSequenceIndex(null);
     setHeadingOverride(null);
@@ -417,7 +415,6 @@ export default function App() {
       setShowFigures(false);
       setShowButtons(false);
       setShowFinalButtons(false);
-      setShowCryShoutButtons(false);
       setWhiteout(false);
       setSequenceIndex(null);
       setHeadingOverride(null);

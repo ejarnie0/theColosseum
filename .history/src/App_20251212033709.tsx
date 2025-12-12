@@ -26,7 +26,7 @@ export default function App() {
   const [isFading, setIsFading] = useState(false);
   const [initialChoice, setInitialChoice] = useState<string | null>(null);
   const [pathChoice, setPathChoice] = useState<string | null>(null);
-  const [showFigures, setShowFigures] = useState(false);
+   const [showFigures, setShowFigures] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [displayImage, setDisplayImage] = useState(titleScreen);
   const [whiteout, setWhiteout] = useState(false);
@@ -108,7 +108,6 @@ export default function App() {
       setInitialChoice(null);
       setPathChoice(null);
       setShowFinalButtons(false);
-      setShowCryShoutButtons(false);
       setFinalPhaseIndex(null);
       setMouthSequenceIndex(null);
       setPostStatuesIndex(null);
@@ -143,7 +142,6 @@ export default function App() {
     setShowFigures(false);
     setShowButtons(false);
     setShowFinalButtons(false);
-    setShowCryShoutButtons(false);
     setWhiteout(false);
     setSequenceIndex(null);
     setHeadingOverride(null);
@@ -176,9 +174,8 @@ export default function App() {
     } else if (sequenceIndex < lines.length - 1) {
       timer = window.setTimeout(() => setSequenceIndex((idx) => (idx === null ? null : idx + 1)), 2000);
     } else {
-      // sequence ended; show cry/shout buttons
-      setShowCryShoutButtons(true);
-      setShowButtons(true);
+      // sequence ended; show final buttons
+      setShowFinalButtons(true);
     }
 
     if (sequenceIndex >= 0 && lines[sequenceIndex] === 'and i will cry.') {
@@ -197,7 +194,6 @@ export default function App() {
     setShowFigures(false);
     setShowButtons(false);
     setShowFinalButtons(false);
-    setShowCryShoutButtons(false);
     setWhiteout(false);
     setSequenceIndex(null);
     setFinalPhaseIndex(null);
@@ -417,7 +413,6 @@ export default function App() {
       setShowFigures(false);
       setShowButtons(false);
       setShowFinalButtons(false);
-      setShowCryShoutButtons(false);
       setWhiteout(false);
       setSequenceIndex(null);
       setHeadingOverride(null);
@@ -531,38 +526,34 @@ export default function App() {
                   <img src={hallwayPpl2} alt="Hallway figures right" className="figure-img right" />
                 </div>
               )}
-              <div className={`story-buttons ${showButtons || showFinalButtons || showCryShoutButtons ? 'visible' : ''}`}>
+              <div className={`story-buttons ${showButtons || showFinalButtons ? 'visible' : ''}`}>
                 <button
                   type="button"
                   onClick={() => {
                     if (showFinalButtons) {
                       setPathChoice('beg');
-                    } else if (showCryShoutButtons) {
-                      setPathChoice('cry');
                     } else {
                       setInitialChoice('advance-left');
                     }
                   }}
-                  aria-label={showFinalButtons ? 'Beg' : showCryShoutButtons ? 'Cry' : 'Run'}
+                  aria-label={showFinalButtons ? 'Beg' : 'Run'}
                 >
                   <img src={buttons} alt="Left choice" />
-                  <span className="button-label">{showFinalButtons ? 'Beg' : showCryShoutButtons ? 'Cry' : 'Run'}</span>
+                  <span className="button-label">{showFinalButtons ? 'Beg' : 'Run'}</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => {
                     if (showFinalButtons) {
                       setPathChoice('plead');
-                    } else if (showCryShoutButtons) {
-                      setPathChoice('shout');
                     } else {
                       setInitialChoice('advance-right');
                     }
                   }}
-                  aria-label={showFinalButtons ? 'Plead' : showCryShoutButtons ? 'Shout' : 'Slow down'}
+                  aria-label={showFinalButtons ? 'Plead' : 'Slow down'}
                 >
                   <img src={buttons2} alt="Right choice" />
-                  <span className="button-label">{showFinalButtons ? 'Plead' : showCryShoutButtons ? 'Shout' : 'Slow down'}</span>
+                  <span className="button-label">{showFinalButtons ? 'Plead' : 'Slow down'}</span>
                 </button>
               </div>
             </div>

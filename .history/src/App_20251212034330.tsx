@@ -26,7 +26,7 @@ export default function App() {
   const [isFading, setIsFading] = useState(false);
   const [initialChoice, setInitialChoice] = useState<string | null>(null);
   const [pathChoice, setPathChoice] = useState<string | null>(null);
-  const [showFigures, setShowFigures] = useState(false);
+   const [showFigures, setShowFigures] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [displayImage, setDisplayImage] = useState(titleScreen);
   const [whiteout, setWhiteout] = useState(false);
