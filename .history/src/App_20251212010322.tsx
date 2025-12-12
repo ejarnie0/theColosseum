@@ -3,7 +3,7 @@ import './App.css';
 import titleScreen from './assets/title_screen_1.png';
 import hallway from './assets/hallway_.png';
 import buttons from './assets/buttons.png';
-import buttons2 from './assets/buttons2.png';
+import buttons2 from './assets/buttons 2.png';
 import creepyWind from './assets/Creepy_Wind.mp3';
 
 export default function App() {

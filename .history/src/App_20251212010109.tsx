@@ -2,8 +2,6 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import './App.css';
 import titleScreen from './assets/title_screen_1.png';
 import hallway from './assets/hallway_.png';
-import buttons from './assets/buttons.png';
-import buttons2 from './assets/buttons2.png';
 import creepyWind from './assets/Creepy_Wind.mp3';
 
 export default function App() {
@@ -90,26 +88,34 @@ export default function App() {
                 The air is colder here. A draft rolls down the corridor and the lights
                 flicker. You catch the sound of shuffling feet in the distance.
               </p>
-              <div className="story-buttons">
+              <div className="story-actions">
                 <button
                   type="button"
-                  onClick={() => setPathChoice('left')}
-                  aria-label="Choose left path"
+                  onClick={() => setPathChoice('listen')}
+                  className={pathChoice === 'listen' ? 'active' : ''}
                 >
-                  <img src={buttons} alt="Left choice" />
+                  Pause and listen
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPathChoice('right')}
-                  aria-label="Choose right path"
+                  onClick={() => setPathChoice('move')}
+                  className={pathChoice === 'move' ? 'active' : ''}
                 >
-                  <img src={buttons2} alt="Right choice" />
+                  Move toward the sound
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPathChoice('hide')}
+                  className={pathChoice === 'hide' ? 'active' : ''}
+                >
+                  Hide behind the statue
                 </button>
               </div>
               {pathChoice && (
                 <div className="story-note">
-                  {pathChoice === 'left' && 'You hold your breath. The shuffling stops—something knows you are there.'}
-                  {pathChoice === 'right' && 'Each step echoes. The wind swells, pushing you forward as if guiding you.'}
+                  {pathChoice === 'listen' && 'You hold your breath. The shuffling stops—something knows you are there.'}
+                  {pathChoice === 'move' && 'Each step echoes. The wind swells, pushing you forward as if guiding you.'}
+                  {pathChoice === 'hide' && 'Stone dust coats your hands. The statues feel warmer than they should.'}
                 </div>
               )}
             </div>

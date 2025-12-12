@@ -97,8 +97,8 @@ body {
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 8vw;
+  justify-content: space-evenly;
+  padding: 0 18vw;
   pointer-events: none;
 }
 
@@ -117,7 +117,7 @@ body {
 
 .story-buttons img {
   display: block;
-  max-width: min(350px, 32vw);
+  max-width: min(200px, 32vw);
   height: auto;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
 }

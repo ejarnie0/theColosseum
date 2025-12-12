@@ -1,0 +1,113 @@
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  background-color: #ffffff;
+  color: #e9edf5;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+}
+
+.hero-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.title-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #ffffff;
+  display: block;
+}
+
+.hero-action {
+  position: absolute;
+  top: 40;
+  right: 30%;
+  width: 20%;
+  height: 20%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.fade-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 350ms ease;
+}
+
+.fade-overlay.active {
+  opacity: 1;
+}
+
+.volume-trigger {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  color: #111;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+
+.volume-trigger:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.28),
+    0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+.volume-trigger:active {
+  transform: translateY(0);
+}
+
+.icon-play {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid #111;
+  transform: translateX(2px);
+}
+
+.icon-pause {
+  display: grid;
+  grid-template-columns: repeat(2, 6px);
+  gap: 6px;
+}
+
+.icon-pause span {
+  display: block;
+  width: 6px;
+  height: 20px;
+  background: #111;
+  border-radius: 1px;
+}
