@@ -396,11 +396,6 @@ export default function App() {
   useEffect(() => {
     if (!restartAction || !blackout) return;
 
-    // Wait for fade animation to complete (800ms), then add extra delay for title restart
-    const fadeDuration = 800;
-    const extraDelay = restartAction === 'title' ? 2000 : 0; // 2s extra delay for title restart
-    const totalDelay = fadeDuration + extraDelay;
-
     const timer = window.setTimeout(() => {
       // Reset all state
       setDisplayImage(restartAction === 'title' ? titleScreen : hallway);
@@ -422,7 +417,7 @@ export default function App() {
       setHandsShadowsPhaseIndex(null);
       setEndingSequenceIndex(null);
       setIsFading(false);
-    }, totalDelay);
+    }, 800); // Wait for fade animation to complete
 
     return () => {
       window.clearTimeout(timer);
@@ -506,7 +501,6 @@ export default function App() {
           className="title-image"
         />
         <div className={`whiteout ${whiteout ? 'active' : ''}`} />
-        <div className={`blackout ${blackout ? 'active' : ''}`} />
         <button
           className="hero-action"
           aria-label="Right side action"

@@ -40,7 +40,6 @@ export default function App() {
   const [handsShadowsPhaseIndex, setHandsShadowsPhaseIndex] = useState<number | null>(null);
   const [endingSequenceIndex, setEndingSequenceIndex] = useState<number | null>(null);
   const [restartAction, setRestartAction] = useState<'hallway' | 'title' | null>(null);
-  const [blackout, setBlackout] = useState(false);
 
   useEffect(() => {
     const audio = new Audio(creepyWind);
@@ -392,43 +391,6 @@ export default function App() {
     };
   }, [endingSequenceIndex]);
 
-  // Handle restart after blackout fade
-  useEffect(() => {
-    if (!restartAction || !blackout) return;
-
-    // Wait for fade animation to complete (800ms), then add extra delay for title restart
-    const fadeDuration = 800;
-    const extraDelay = restartAction === 'title' ? 2000 : 0; // 2s extra delay for title restart
-    const totalDelay = fadeDuration + extraDelay;
-
-    const timer = window.setTimeout(() => {
-      // Reset all state
-      setDisplayImage(restartAction === 'title' ? titleScreen : hallway);
-      setScene(restartAction === 'title' ? 'title' : 'hallway');
-      setBlackout(false);
-      setRestartAction(null);
-      setInitialChoice(null);
-      setPathChoice(null);
-      setShowFigures(false);
-      setShowButtons(false);
-      setShowFinalButtons(false);
-      setWhiteout(false);
-      setSequenceIndex(null);
-      setHeadingOverride(null);
-      setFinalPhaseIndex(null);
-      setMouthSequenceIndex(null);
-      setPostStatuesIndex(null);
-      setAllowScreenAdvance(false);
-      setHandsShadowsPhaseIndex(null);
-      setEndingSequenceIndex(null);
-      setIsFading(false);
-    }, totalDelay);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [blackout, restartAction]);
-
   // Sequence for faces -> hands_reaching
   useEffect(() => {
     const lines = [
@@ -506,7 +468,6 @@ export default function App() {
           className="title-image"
         />
         <div className={`whiteout ${whiteout ? 'active' : ''}`} />
-        <div className={`blackout ${blackout ? 'active' : ''}`} />
         <button
           className="hero-action"
           aria-label="Right side action"
@@ -568,8 +529,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => {
-                    setBlackout(true);
-                    setRestartAction('hallway');
+                    // Handle "Open a different app" action
                   }}
                   aria-label="Open a different app"
                 >
@@ -578,8 +538,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => {
-                    setBlackout(true);
-                    setRestartAction('title');
+                    // Handle "Turn off the phone" action
                   }}
                   aria-label="Turn off the phone"
                 >

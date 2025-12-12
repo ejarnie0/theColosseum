@@ -14,9 +14,6 @@ import mouthOpen from './assets/mouth_open.png';
 import statues from './assets/statues.png';
 import begging from './assets/begging.png';
 import pleading from './assets/pleading.png';
-import handsShadows from './assets/hands-shadows.png';
-import ending from './assets/ending.png';
-import phone from './assets/phone.png';
 import creepyWind from './assets/Creepy_Wind.mp3';
 
 export default function App() {
@@ -36,11 +33,6 @@ export default function App() {
   const [finalPhaseIndex, setFinalPhaseIndex] = useState<number | null>(null);
   const [mouthSequenceIndex, setMouthSequenceIndex] = useState<number | null>(null);
   const [postStatuesIndex, setPostStatuesIndex] = useState<number | null>(null);
-  const [allowScreenAdvance, setAllowScreenAdvance] = useState(false);
-  const [handsShadowsPhaseIndex, setHandsShadowsPhaseIndex] = useState<number | null>(null);
-  const [endingSequenceIndex, setEndingSequenceIndex] = useState<number | null>(null);
-  const [restartAction, setRestartAction] = useState<'hallway' | 'title' | null>(null);
-  const [blackout, setBlackout] = useState(false);
 
   useEffect(() => {
     const audio = new Audio(creepyWind);
@@ -110,8 +102,6 @@ export default function App() {
       setFinalPhaseIndex(null);
       setMouthSequenceIndex(null);
       setPostStatuesIndex(null);
-      setHandsShadowsPhaseIndex(null);
-      setEndingSequenceIndex(null);
       figTimer = window.setTimeout(() => setShowFigures(true), 2000);
       btnTimer = window.setTimeout(() => setShowButtons(true), 5000);
     } else {
@@ -124,8 +114,6 @@ export default function App() {
       setFinalPhaseIndex(null);
       setMouthSequenceIndex(null);
       setPostStatuesIndex(null);
-      setHandsShadowsPhaseIndex(null);
-      setEndingSequenceIndex(null);
     }
 
     return () => {
@@ -198,9 +186,6 @@ export default function App() {
     setFinalPhaseIndex(null);
     setMouthSequenceIndex(null);
     setPostStatuesIndex(null);
-    setHandsShadowsPhaseIndex(null);
-    setEndingSequenceIndex(null);
-    setAllowScreenAdvance(false);
 
     // Beg/Plead terminal branch: show begging image and line, stop other sequences.
     if (pathChoice === 'beg' || pathChoice === 'plead') {
@@ -211,7 +196,6 @@ export default function App() {
         const t2 = window.setTimeout(() => {
           setDisplayImage(pleading);
           setHeadingOverride('One without the other, could never be whole.');
-          setAllowScreenAdvance(true);
         }, 1500);
         return () => window.clearTimeout(t2);
       }, 1500);
@@ -307,7 +291,7 @@ export default function App() {
   // Post-statues sequence with 1s delay between lines
   useEffect(() => {
     const lines = [
-      'And we beg for more. We can\'t help but to watch.',
+      'And we beg for more. We can’t help but to watch.',
       'And we make bets. And we discuss. And we pretend to be orderly.',
       'Civilized.',
       'While we, those that cannot see,',
@@ -334,100 +318,6 @@ export default function App() {
       if (timer) window.clearTimeout(timer);
     };
   }, [postStatuesIndex]);
-
-  // Hands-shadows sequence: after "And so I, one of the billions watching," show "Sit back down." after 1.5s
-  useEffect(() => {
-    if (handsShadowsPhaseIndex === null) return;
-
-    if (handsShadowsPhaseIndex === 0) {
-      const timer = window.setTimeout(() => {
-        setHeadingOverride('Sit back down.');
-        // After showing "Sit back down.", change to ending image and start ending sequence
-        const timer2 = window.setTimeout(() => {
-          setDisplayImage(ending);
-          setEndingSequenceIndex(0);
-        }, 1500);
-        setHandsShadowsPhaseIndex(null);
-        return () => window.clearTimeout(timer2);
-      }, 1500);
-      return () => window.clearTimeout(timer);
-    }
-  }, [handsShadowsPhaseIndex]);
-
-  // Ending sequence with 1.5s delay between lines
-  useEffect(() => {
-    const lines = [
-      'And I leave my like,',
-      'And I send it to my friends,',
-      'And i get uncomfortable,',
-      'And i close the app.',
-      'And then i open it back up,',
-      'And i watch it again,',
-      'And again,,',
-      'And again,,,',
-      'And I watch more.'
-    ];
-
-    if (endingSequenceIndex === null) return;
-
-    setHeadingOverride(lines[endingSequenceIndex] ?? lines[lines.length - 1]);
-
-    let timer: number | null = null;
-    if (endingSequenceIndex < lines.length - 1) {
-      timer = window.setTimeout(
-        () => setEndingSequenceIndex((idx) => (idx === null ? null : idx + 1)),
-        1500
-      );
-    } else {
-      // After the last line, change to phone image and final line
-      timer = window.setTimeout(() => {
-        setDisplayImage(phone);
-        setHeadingOverride('Because what else can i do, but help the coliseum do what it does best.');
-        setEndingSequenceIndex(null);
-      }, 1500);
-    }
-
-    return () => {
-      if (timer) window.clearTimeout(timer);
-    };
-  }, [endingSequenceIndex]);
-
-  // Handle restart after blackout fade
-  useEffect(() => {
-    if (!restartAction || !blackout) return;
-
-    // Wait for fade animation to complete (800ms), then add extra delay for title restart
-    const fadeDuration = 800;
-    const extraDelay = restartAction === 'title' ? 2000 : 0; // 2s extra delay for title restart
-    const totalDelay = fadeDuration + extraDelay;
-
-    const timer = window.setTimeout(() => {
-      // Reset all state
-      setDisplayImage(restartAction === 'title' ? titleScreen : hallway);
-      setScene(restartAction === 'title' ? 'title' : 'hallway');
-      setBlackout(false);
-      setRestartAction(null);
-      setInitialChoice(null);
-      setPathChoice(null);
-      setShowFigures(false);
-      setShowButtons(false);
-      setShowFinalButtons(false);
-      setWhiteout(false);
-      setSequenceIndex(null);
-      setHeadingOverride(null);
-      setFinalPhaseIndex(null);
-      setMouthSequenceIndex(null);
-      setPostStatuesIndex(null);
-      setAllowScreenAdvance(false);
-      setHandsShadowsPhaseIndex(null);
-      setEndingSequenceIndex(null);
-      setIsFading(false);
-    }, totalDelay);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [blackout, restartAction]);
 
   // Sequence for faces -> hands_reaching
   useEffect(() => {
@@ -488,17 +378,7 @@ export default function App() {
           : "I can't do much from the stands of the coliseum.");
 
   return (
-    <main
-      className="app"
-      onClick={() => {
-        if (allowScreenAdvance) {
-          setDisplayImage(handsShadows);
-          setHeadingOverride('And so I, one of the billions watching,');
-          setAllowScreenAdvance(false);
-          setHandsShadowsPhaseIndex(0);
-        }
-      }}
-    >
+    <main className="app">
       <div className="hero-wrapper">
         <img
           src={currentImage}
@@ -506,7 +386,6 @@ export default function App() {
           className="title-image"
         />
         <div className={`whiteout ${whiteout ? 'active' : ''}`} />
-        <div className={`blackout ${blackout ? 'active' : ''}`} />
         <button
           className="hero-action"
           aria-label="Right side action"
@@ -553,37 +432,6 @@ export default function App() {
                 >
                   <img src={buttons2} alt="Right choice" />
                   <span className="button-label">{showFinalButtons ? 'Plead' : 'Slow down'}</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        {displayImage === phone && (
-          <div className="story-layer visible">
-            <div className="story-card">
-              <h2 className="heading-line" key={heading}>
-                {heading}
-              </h2>
-              <div className="phone-buttons">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setBlackout(true);
-                    setRestartAction('hallway');
-                  }}
-                  aria-label="Open a different app"
-                >
-                  Open a different app
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setBlackout(true);
-                    setRestartAction('title');
-                  }}
-                  aria-label="Turn off the phone"
-                >
-                  Turn off the phone
                 </button>
               </div>
             </div>

@@ -47,21 +47,6 @@ body {
   cursor: pointer;
 }
 
-.blackout {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 800ms ease;
-  z-index: 1000;
-}
-
-.blackout.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .story-layer {
   position: absolute;
   inset: 0;

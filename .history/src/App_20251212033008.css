@@ -47,21 +47,6 @@ body {
   cursor: pointer;
 }
 
-.blackout {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 800ms ease;
-  z-index: 1000;
-}
-
-.blackout.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .story-layer {
   position: absolute;
   inset: 0;
@@ -158,7 +143,6 @@ body {
   padding-top: 34vh;
   gap: 15px;
   pointer-events: none;
-  transform: translateX(-25px);
 }
 
 .phone-buttons button {
@@ -176,10 +160,6 @@ body {
   min-width: 180px;
 }
 
-.phone-buttons button:first-child {
-  transform: translateX(-15px);
-}
-
 .phone-buttons button:hover {
   background: rgba(0, 0, 0, 0.85);
   border-color: rgba(255, 255, 255, 1);
@@ -187,16 +167,8 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-.phone-buttons button:first-child:hover {
-  transform: translateX(-15px) translateY(-2px);
-}
-
 .phone-buttons button:active {
   transform: translateY(0);
-}
-
-.phone-buttons button:first-child:active {
-  transform: translateX(-15px) translateY(0);
 }
 
 .figure-layer {

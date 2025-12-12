@@ -47,21 +47,6 @@ body {
   cursor: pointer;
 }
 
-.blackout {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 800ms ease;
-  z-index: 1000;
-}
-
-.blackout.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .story-layer {
   position: absolute;
   inset: 0;
@@ -193,10 +178,6 @@ body {
 
 .phone-buttons button:active {
   transform: translateY(0);
-}
-
-.phone-buttons button:first-child:active {
-  transform: translateX(-15px) translateY(0);
 }
 
 .figure-layer {
